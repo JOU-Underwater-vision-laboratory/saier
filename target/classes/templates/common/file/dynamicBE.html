@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head >
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>DynamicBE下载页</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+</head>
+<body class=" gray-bg">
+<div class="signinpanel">
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>ARINE-Lab</h1>
+                </div>
+                <div class="m-b"></div>
+                <div id="introduce">
+                    <h3 class="gg-formEmailDetail">
+                        欢迎使用 <strong>
+                        <th th:text="${software.softName}"></th>
+                        <!--<input type="text" class="m-t-md text-center" readonly="readonly" id="soft_name"  name="soft_name" th:value=${software.soft_name}>--></strong>
+                    </h3>
+                    <ul class="m-b">
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            <th th:text="${software.softIntroduction}"></th>
+                        </li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            关键词：<th th:text="${software.softKeywords}"></th>
+                        </li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            功能介绍：<th th:text="${software.softFunction}"></th>
+                        </li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            作者：<th th:text="${software.softAuthor}"></th>
+                        </li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            作者邮箱：<th th:text="${software.softAuthorEmail}"></th>
+                        </li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                            版本：<th th:text="${software.softVersion}"></th>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <form id="signupForm" method="post" action="/downPage/d/download">
+                <h3 class="text-center">Who U Are?</h3>
+                <p class="m-t-md text-center">Please tell us who you are. So that we can provide you with follow-up notice.</p>
+
+                <div class="gg-formGroup">
+                    <div class="gg-formTitle">
+                        <em class="gg-star">*</em>
+                        <span>name:</span>
+                    </div>
+                    <div class="gg-formDetail">
+                        <input type="text" class="form-control" id="person_name" name="person_name"   placeholder="Please input your name" />
+                    </div>
+                </div>
+
+                <div class="gg-formGroup">
+                    <div class="gg-formTitle">
+                        <em class="gg-star">*</em>
+                        <span>e-mail:</span>
+                    </div>
+                    <div>
+                        <input type="email" class="form-control" id="person_email" name="person_email"  placeholder="Please input your E-mail" >
+
+                    </div>
+                     <div class="gg-formEmailDetail">
+                         <input type="text"  readonly="readonly" class="form-control" value=".com" />
+                     </div>
+                </div>
+                <div class="gg-formGroup">
+                    <div class="gg-formTitle">
+                        <em class="gg-star">*</em>
+                        <span>Locate Area:</span>
+                    </div>
+                    <div class="gg-formDetail gg-font0" data-toggle="distpicker" >
+                        <div class="gg-area">
+                            <select class="form-control" id="person_country" name="person_country">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="gg-formGroup">
+                    <div class="gg-formTitle">
+                        <em class="gg-star">*</em>
+                        <span>Institutional Unit:</span>
+                    </div>
+                    <div class="gg-formDetail">
+                        <input type="text" class="form-control" id="person_institution" name="person_institution"  placeholder="Please input your Institutional Unit " />
+                    </div>
+                </div>
+                <input type="hidden" id="fid" class="form-control" name="fid" th:value=${software.softFid}>
+                <div class="gg-btnGroup">
+                    <button id="pwd_save" type="submit" class="btn btn-login btn-block" >Click Here for Download!</button>
+                 <!--按钮模块-->
+                </div>
+            </form>
+            <div class="outside-login">
+                <div class="outside-login-tit">
+                    <span>friendly link</span>
+                </div>
+                <div class="outside-login-cot">
+                    <a class="outside-login-btn wxoa actived oschina J-btnSwitchLoginType" target="_Blank"
+                       href="https://www.nzwang-lab.net/">
+                        <em><i class="fa fa-home"></i></em>
+                        <span>NZWang-Lab</span>
+                    </a>
+
+                    <a class="outside-login-btn wxoa actived git J-btnSwitchLoginType" target="_Blank"
+                       href="https://github.com/">
+                        <em><i class="fa fa-github"></i></em>
+                        <span>github</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="signup-footer">
+        <div class="copyright">Copyright © ARINE Lab 2018
+        </div>
+    </div>
+</div>
+</body>
+<!--<div th:include="/common/file/operate/include :: footer"></div>-->
+<script type="text/javascript" src="/js/appjs/downRes/fill.js"></script>
+<script src="/js/vue.min.js"></script>
+<script type="text/javascript" src="/js/appjs/downRes/fillContent.js"></script>
+<script type="text/javascript" src="/js/jquery.min.js" ></script>
+<script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+<script type="text/javascript" src="/js/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="/js/plugins/cropper/cropper.min.js"></script>
+<script type="text/javascript" src="/js/plugins/layer/laydate/laydate.js" ></script>
+<!--<script type="text/javascript" src="/js/plugins/distpicker4/distpicker.data.min.js"></script>-->
+<script type="text/javascript" src="/js/plugins/distpicker4/distpicker_zh.min.js"></script>
+<script type="text/javascript" src="/js/appjs/sys/user/gg-bootdo.js"></script>
+<!--校验插件-->
+<script  type="text/javascript" src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script   type="text/javascript" src="/js/plugins/validate/jquery.validate.extend.js"></script>
+<script  type="text/javascript" src="/js/plugins/validate/messages_zh.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            limit: 12,
+            offset: 0,
+            total: 0,
+            file: '',
+            type: '',
+            rows: '',
+        },
+        methods: {
+            getData: function () {
+                $.getJSON("/common/sysFile/list", {
+                    limit: this.limit,
+                    offset: this.offset,
+                    type: this.type
+                }, function (r) {
+                    app.total = r.total;
+                    app.rows = r.rows;
+                    app.page();
+                });
+            }
+        },
+    });
+</script>
+</html>

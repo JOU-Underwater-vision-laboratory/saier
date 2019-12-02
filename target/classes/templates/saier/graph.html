@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>个人信息统计</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="row  border-bottom white-bg dashboard-header">
+        <div class="col-sm-12">
+            <p> 写一点介绍。
+            </p>
+        </div>
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight"  style='width:600px;height:400px;' id="main">
+
+    </div>
+    <!-- 全局js -->
+    <script src="/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/js/bootstrap.min.js?v=3.3.6"></script>
+
+    <!-- ECharts -->
+    <script src="/js/plugins/echarts/echarts-all.js"></script>
+
+    <!-- 自定义js -->
+    <script src="/js/content.js?v=1.0.0"></script>
+
+
+    <!-- ECharts demo data -->
+    <!--<script src="/js/demo/echarts-demo.js"></script>-->
+    <script>
+        var glegend = null;
+        var gvalue = null;
+        $.ajax({
+            url : "/util/show/graph",
+            type : "post",
+            data : {
+            },
+            success : function(r) {
+                if (r.code === 0) {
+                    glegend = r.legend;
+                    gvalue = r.gvalue;
+                    // layer.msg("数据加载成功");
+                    f(glegend,gvalue);
+                } else {
+                    // layer.msg(r.msg);
+                }
+            }
+        });
+        function f(glegend,gvalue) {
+            //基于准备好的DOM，初始化echarts实例
+            var myChart = echarts.init(document.getElementById('main'));
+            //指定图表的配置项和数据
+            var option = {
+                title : {
+                    text: '个人用药记录',
+                    subtext: '',
+                    x:'center'
+                },
+                legend: {
+                    x : 'center',
+                    y : 'bottom',
+                    data: glegend
+                    // data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+                },
+                calculable : true,
+                series : [
+                    {
+                        name:'面积模式',
+                        type:'pie',
+                        radius : [30, 180],
+                        center : ['50%', '50%'],
+                        roseType : 'area',
+                        data: gvalue
+                        // data:[
+                        //     {value:10, name:'rose1'},
+                        //     {value:5, name:'rose2'},
+                        //     {value:15, name:'rose3'},
+                        //     {value:25, name:'rose4'},
+                        //     {value:20, name:'rose5'},
+                        //     {value:35, name:'rose6'},
+                        //     {value:30, name:'rose7'},
+                        //     {value:40, name:'rose8'}
+                        // ]
+                    }
+                ]
+            };
+            //使用刚指定的配置项和数据显示图表
+            myChart.setOption(option);
+        }
+
+    </script>
+
+</body>
+
+</html>

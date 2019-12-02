@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.site.dao.MemberDao">
+
+	<select id="get" resultType="com.hhit.site.domain.MemberDO">
+		select `mid`,`mname`,`mgroup`,`mcategory`,`mnameEng`,`pic`,`created`,`modified`,`mjob`,`mintroduce`,`mintroduceEng`,`mResearea`,`mReseareaEng`,`gtm_create`,`gtm_modified` from site_member where mid = #{value}
+	</select>
+
+    <select id="findAll" resultType="com.hhit.site.domain.MemberDO">
+        select `mid`,`mname`,`mgroup`,`mcategory`,`mnameEng`,`pic`,`created`,`modified`,`mjob`,`mintroduce`,`mintroduceEng`,`mResearea`,`mReseareaEng`,`gtm_create`,`gtm_modified` from site_member
+        <where>
+            <if test="mid != null "> mid = #{mid} </if>
+			<if test="mgroup != null  and mgroup !='' " > and  `mgroup` = #{mgroup} </if>
+            <if test="mname != null and mname != ''"> and mname = #{mname} </if>
+			<if test="mcategory != null  and mcategory !='' " >and  `mcategory` = #{mcategory} </if>
+            <if test="mnameEng != null and mnameEng != ''"> and mnameEng = #{mnameEng} </if>
+			<if test="pic != null "> and pic = #{pic} </if>
+            <if test="created != null and created != ''"> and created = #{created} </if>
+            <if test="modified != null "> and modified = #{modified} </if>
+            <if test="mjob != null and mjob != ''"> and mjob = #{mjob} </if>
+            <if test="mintroduce != null and mintroduce != ''"> and mintroduce = #{mintroduce} </if>
+            <if test="mintroduceEng != null and mintroduceEng != ''"> and mintroduceEng = #{mintroduceEng} </if>
+            <if test="mResearea != null and mResearea != ''"> and mResearea = #{mResearea} </if>
+            <if test="mReseareaEng != null and mReseareaEng != ''"> and mReseareaEng = #{mReseareaEng} </if>
+            <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+            <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by mid asc
+            </otherwise>
+        </choose>
+
+    </select>
+
+	<select id="list" resultType="com.hhit.site.domain.MemberDO">
+		select `mid`,`mname`,`mcategory`,`mnameEng`,`pic`,`created`,`modified`,`mjob`,`mgroup`,`mintroduce`,`mintroduceEng`,`mResearea`,`mReseareaEng`,`gtm_create`,`gtm_modified`
+		from site_member
+        <where>
+		  		  <if test="mid != null "> and mid = #{mid} </if>
+					<if test="mgroup != null  and mgroup !='' " > and  mgroup = #{mgroup} </if>
+		  		  <if test="mname != null and mname != ''"> and  mname  like  '%${mname}%'  </if>
+					<if test="mcategory != null  and mcategory !='' " >and  `mcategory` = #{mcategory} </if>
+		  		  <if test="mnameEng != null and mnameEng != ''"> and mnameEng = #{mnameEng} </if>
+				  <if test="pic != null "> and pic = #{pic} </if>
+		  		  <if test="created != null "> and created = #{created} </if>
+		  		  <if test="modified != null "> and modified = #{modified} </if>
+		  		  <if test="mjob != null and mjob != ''"> and mjob = #{mjob} </if>
+		  		  <if test="mintroduce != null and mintroduce != ''"> and mintroduce = #{mintroduce} </if>
+		  		  <if test="mintroduceEng != null and mintroduceEng != ''"> and mintroduceEng = #{mintroduceEng} </if>
+		  		  <if test="mResearea != null and mResearea != ''"> and mResearea = #{mResearea} </if>
+		  		  <if test="mReseareaEng != null and mReseareaEng != ''"> and mReseareaEng = #{mReseareaEng} </if>
+		  		  <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by mid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from site_member
+		 <where>
+			 <if test="mid != null "> mid = #{mid} </if>
+			 <if test="mgroup != null  and mgroup !='' " > and  `mgroup` = #{mgroup} </if>
+			 <if test="mcategory != null  and mcategory !='' " >and  `mcategory` = #{mcategory} </if>
+			 <if test="mname != null and mname != ''"> and mname = #{mname} </if>
+			 <if test="mnameEng != null and mnameEng != ''"> and mnameEng = #{mnameEng} </if>
+			 <if test="pic != null "> and pic = #{pic} </if>
+			 <if test="created != null "> and created = #{created} </if>
+			 <if test="modified != null "> and modified = #{modified} </if>
+			 <if test="mjob != null "> and mjob = #{mjob} </if>
+			 <if test="mintroduce != null and mintroduce != ''"> and mintroduce = #{mintroduce} </if>
+			 <if test="mintroduceEng != null and mintroduceEng != ''"> and mintroduceEng = #{mintroduceEng} </if>
+			 <if test="mResearea != null and mResearea != ''"> and mResearea = #{mResearea} </if>
+			 <if test="mReseareaEng != null and mReseareaEng != ''"> and mReseareaEng = #{mReseareaEng} </if>
+			 <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+			 <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hhit.site.domain.MemberDO" useGeneratedKeys="true" keyProperty="mid">
+		insert into site_member
+		(
+				`mname`,`mnameEng`,`pic`,`mgroup`,`mcategory`,`created`,`modified`,`mjob`,`mintroduce`,`mintroduceEng`,`mResearea`,`mReseareaEng`,`gtm_create`,`gtm_modified`
+		)
+		values
+		(
+				#{mname},#{mnameEng},#{pic},#{mgroup},#{mcategory},#{created},#{modified},#{mjob},#{mintroduce},#{mintroduceEng},#{mResearea},#{mReseareaEng},#{gtmCreate,jdbcType=TIMESTAMP},#{gtmModified,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hhit.site.domain.MemberDO">
+		update site_member
+		<set>
+			<if test="mid != null "> `mid`= #{mid}, </if>
+			<if test="mgroup != null  and mgroup !='' " > `mgroup` = #{mgroup} ,</if>
+			<if test="mcategory != null  and mcategory !='' " > `mcategory` = #{mcategory} ,</if>
+			<if test="mname != null"> `mname` = #{mname} ,</if>
+			<if test="mnameEng != null"> `mnameEng` = #{mnameEng} ,</if>
+			<if test="pic != null "> `pic` = #{pic},</if>
+			<if test="created != null"> `created` = #{created} ,</if>
+			<if test="modified != null "> `modified` = #{modified} ,</if>
+			<if test="mjob != null "> `mjob` = #{mjob} ,</if>
+			<if test="mintroduce != null "> `mintroduce` = #{mintroduce} ,</if>
+			<if test="mintroduceEng != null "> `mintroduceEng` = #{mintroduceEng} ,</if>
+			<if test="mResearea != null "> `mResearea`= #{mResearea} ,</if>
+			<if test="mReseareaEng != null "> `mReseareaEng` = #{mReseareaEng}, </if>
+			<if test="gtmCreate != null "> `gtm_create` = #{gtmCreate,jdbcType=TIMESTAMP} ,</if>
+			<if test="gtmModified != null "> `gtm_modified` = #{gtmModified,jdbcType=TIMESTAMP} </if>
+		</set>
+		where mid = #{mid}
+	</update>
+	
+	<delete id="remove">
+  			delete from  site_member where mid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from site_member where mid in 
+		<foreach item="mid" collection="array" open="(" separator="," close=")">
+			#{mid}
+		</foreach>
+	</delete>
+
+</mapper>

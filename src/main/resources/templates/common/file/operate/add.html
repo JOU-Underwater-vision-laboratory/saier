@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+
+<head th:include="system/user/include :: header"></head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title" style="padding-bottom: 0;">
+                    <h3 class="text-center">文件上传</h3>
+                    <div class="gg-nav">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#file_info" data-toggle="tab">文件信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="ibox-content tab-pane fade in active" id="file_info">
+                        <div class="ggcontainer" id="crop-avatar">
+                            <form class="avatar-form"  method="post"  action="/downPage/u/upload" enctype="multipart/form-data" >
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">软件名称：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_name" name="soft_name" class="form-control"
+                                               type="text">
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">版本号：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_version" name="soft_version" class="form-control"
+                                               type="text">
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">简单介绍：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_introduction"  name="soft_introduction" class="form-control"
+                                               type="text">
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">关键词介绍：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_keywords" name="soft_keywords" class="form-control"
+                                               type="text">
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">详细功能介绍：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <textarea id="soft_function" name="soft_function" class="form-control" required></textarea>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">作者（逗号分割）：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_author" name="soft_author" class="form-control"
+                                               type="text">
+                                    </div>
+                                </div>
+                                <br/>
+                                <div class="form-group">
+                                    <div class="gg-formTitle">
+                                        <em class="gg-star">*</em>
+                                        <label class="col-sm-3 control-label">作者邮箱（逗号分割）：</label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input id="soft_authorEmail" name="soft_authorEmail" class="form-control"
+                                               type="email">
+                                    </div>
+                                </div>
+                                <br/>
+                                    <div class="avatar-upload">
+                                        <input class="avatar-src" name="avatar_src" type="hidden">
+                                        <input class="avatar-data" name="avatar_data" type="hidden">
+                                        <label for="avatarInput">选取文件</label>
+                                        <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                    </div>
+                                    <div class="row avatar-btns">
+
+                                        <div class="col-md-3">
+                                            <button class="btn btn-primary btn-block avatar-save" type="submit">上传提交</button>
+                                        </div>
+                                    </div>
+
+                            </form>
+                            <!-- Loading state -->
+                            <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="system/user/include :: footer"></div>
+</body>
+</html>

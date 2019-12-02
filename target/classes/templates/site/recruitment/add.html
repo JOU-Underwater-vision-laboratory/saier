@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="col-sm-12">
+							<h4>发布招聘公告</h4>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+                            <div class="form-group" align="center">
+                                <label class="col-sm-1 control-label">招生类型：</label>
+                                <div class="col-sm-4">
+                                    <input id="rType" name="rType" class="form-control" type="text"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group" align="center">
+								<label class="col-sm-1 control-label">联系人：</label>
+								<div class="col-sm-4">
+									<input id="rLinkman" name="rLinkman" class="form-control" type="text"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">截至时间：</label>
+								<div class="col-sm-4">
+									<input id="rEndtime" name="rEndtime" class="form-control" type="text"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">联系邮箱：</label>
+								<div class="col-sm-4">
+									<input id="rLinkemail" name="rLinkemail" class="form-control" type="email"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">办公地址：</label>
+								<div class="col-sm-4">
+									<input id="rLinkaddress" name="rLinkaddress" class="form-control" type="text"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<input id="rintroduce" name="rintroduce" type="hidden"> <label
+									class="col-sm-1 control-label">组织说明：</label>
+								<div class="col-sm-11">
+									<div class="ibox-content no-padding">
+										<div id="content_sn" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<input id="rResearea" name="rResearea" type="hidden" > <label
+									class="col-sm-1 control-label">研究/招聘方向：</label>
+								<div class="col-sm-11">
+									<div class="ibox-content no-padding">
+										<div id="content_sn_area" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<input id="requirment" name="requirment" type="hidden"> <label
+									class="col-sm-1 control-label">招聘要求：</label>
+								<div class="col-sm-11">
+									<div class="ibox-content no-padding">
+										<div id="content_sn_require" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<input id="rComment" name="rComment" type="hidden"> <label
+									class="col-sm-1 control-label">招募说明：</label>
+								<div class="col-sm-11">
+									<div class="ibox-content no-padding">
+										<div id="content_sn_rComment" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right form-group">
+								<a class="btn btn-default waves-effect waves-light"
+								   onclick="returnList()">返回列表</a>
+								<button
+										class="btn btn-primary waves-effect waves-light" type="submit">发布招聘公告</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+
+
+	<script type="text/javascript" src="/js/appjs/site/recruitment/add.js"></script>
+</body>
+</html>

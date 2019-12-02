@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hhit.site.dao.RecruitmentDao" >
+
+    <select id="get" resultType="com.hhit.site.domain.RecruitmentDO">
+    select
+        `rid`, `rEndtime`,`rType`, `rLinkman`, `rLinkemail`, `rLinkaddress`, `gtm_create`, `gtm_modified`,`rintroduce`, `rResearea`,`requirment`, `rComment`,`Created`,`Modified` from site_recruitment
+    where  rid = #{rid,jdbcType=BIGINT}
+  </select>
+    <select id="findAll" resultType="com.hhit.site.domain.RecruitmentDO">
+        select  `rid`, `rEndtime`, `rType`,`rLinkman`, `rLinkemail`, `rLinkaddress`, `gtm_create`, `gtm_modified`,`rintroduce`, `rResearea`,`requirment`, `rComment`,`Created`,`Modified`  from site_recruitment
+        <where>
+            <if test="rid != null" > and rid=#{rid}</if>
+            <if test="rEndtime != null " >and rEndtime=#{rEndtime}</if>
+            <if test="rType != null" >and rType=#{rType}</if>
+            <if test="rLinkman != null" >and rLinkman=#{rLinkman}</if>
+            <if test="rLinkemail != null" >and rLinkemail=#{rLinkemail}</if>
+            <if test="rLinkaddress != null" >and rLinkaddress=#{rLinkaddress}</if>
+            <if test="gtmCreate != null" >and gtm_create=#{gtmCreate}</if>
+            <if test="gtmModified != null" >and gtm_modified=#{gtmModified}</if>
+            <if test="rintroduce != null" >and rintroduce=#{rintroduce}</if>
+            <if test="rResearea != null" >and rResearea=#{rResearea}</if>
+            <if test="requirment != null" >and requirment=#{requirment}</if>
+            <if test="rComment != null" >and rComment=#{rComment}</if>
+            <if test="Created != null" >and Created=#{Created}</if>
+            <if test="Modified != null" >and Modified=#{Modified}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by rid desc
+            </otherwise>
+        </choose>
+    </select>
+  <select id="list" resultType="com.hhit.site.domain.RecruitmentDO">
+      select `rid`, `rEndtime`, `rType`,`rLinkman`, `rLinkemail`, `rLinkaddress`, `gtm_create`, `gtm_modified`,`rintroduce`, `rResearea`,`requirment`, `rComment`,`Created`,`Modified`
+      from site_recruitment
+        <where>
+        <if test="rid != null" > and rid=#{rid} </if>
+        <if test="rEndtime != null" > and rEndtime=#{rEndtime} </if>
+            <if test="rType != null and rType!=''" > and rType like '%${rType}%' </if>
+        <if test="rLinkman != null" > and rLinkman=#{rLinkman} </if>
+        <if test="rLinkemail != null" > and rLinkemail=#{rLinkemail} </if>
+        <if test="rLinkaddress != null" > and rLinkaddress=#{rLinkaddress} </if>
+        <if test="gtmCreate != null" >and gtm_create=#{gtmCreate} </if>
+        <if test="gtmModified != null" > and gtm_modified=#{gtmModified} </if>
+        <if test="rintroduce != null" > and rintroduce=#{rintroduce} </if>
+        <if test="rResearea != null" > and rResearea=#{rResearea} </if>
+        <if test="requirment != null" > and requirment=#{requirment} </if>
+        <if test="rComment != null" > and rComment=#{rComment} </if>
+            <if test="Created != null" >and Created=#{Created}</if>
+            <if test="Modified != null" >and Modified=#{Modified}</if>
+        </where>
+    <choose>
+      <when test="sort != null and sort.trim() != ''">
+        order by ${sort} ${order}
+      </when>
+      <otherwise>
+        order by rid desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit ${offset}, ${limit}
+    </if>
+  </select>
+    <select id="count"  resultType="int">
+        select count(*) from site_recruitment
+        <where>
+                <if test="rid != null" > and rid=#{rid}</if>
+                <if test="rEndtime != null" >and rEndtime=#{rEndtime}</if>
+            <if test="rType != null" > and rType=#{rType} </if>
+                <if test="rLinkman != null" >and rLinkman=#{rLinkman}</if>
+                <if test="rLinkemail != null" >and rLinkemail=#{rLinkemail}</if>
+                <if test="rLinkaddress != null" >and rLinkaddress=#{rLinkaddress}</if>
+                <if test="gtmCreate != null" >and gtm_create=#{gtmCreate}</if>
+                <if test="gtmModified != null" >and gtm_modified=#{gtmModified}</if>
+                <if test="rintroduce != null" >and rintroduce=#{rintroduce}</if>
+                <if test="rResearea != null" >and rResearea=#{rResearea}</if>
+                <if test="requirment != null" >and requirment=#{requirment}</if>
+                <if test="rComment != null" >and rComment=#{rComment}</if>
+            <if test="Created != null" >and Created=#{Created}</if>
+            <if test="Modified != null" >and Modified=#{Modified}</if>
+                </where>
+
+    </select>
+  <delete id="remove">
+    delete from site_recruitment  where rid = #{rid}
+  </delete>
+    <delete id="batchRemove">
+        delete from site_recruitment where rid in
+        <foreach item="rid" collection="array" open="(" separator="," close=")">
+            #{rid}
+        </foreach>
+    </delete>
+  <insert id="save" parameterType="com.hhit.site.domain.RecruitmentDO"  useGeneratedKeys="true" keyProperty="rid" >
+    insert into site_recruitment (rid, rEndtime, rType ,rLinkman,
+      rLinkemail, rLinkaddress, gtm_create, 
+      gtm_modified, rintroduce, rResearea, 
+      requirment, rComment,`Created`,`Modified`)
+    values (#{rid,jdbcType=BIGINT}, #{rEndtime,jdbcType=VARCHAR}, #{rType, jdbcType=VARCHAR},#{rLinkman,jdbcType=VARCHAR},
+      #{rLinkemail,jdbcType=VARCHAR}, #{rLinkaddress,jdbcType=VARCHAR}, #{gtmCreate,jdbcType=TIMESTAMP}, 
+      #{gtmModified,jdbcType=TIMESTAMP}, #{rintroduce,jdbcType=LONGVARCHAR}, #{rResearea,jdbcType=LONGVARCHAR},
+      #{requirment,jdbcType=LONGVARCHAR}, #{rComment,jdbcType=LONGVARCHAR},#{Created,jdbcType=BIGINT},#{Modified,jdbcType=BIGINT})
+  </insert>
+
+  <update id="update" parameterType="com.hhit.site.domain.RecruitmentDO" >
+    update  site_recruitment
+    <set>
+          <if test="rEndtime != null" >`rEndtime`= #{rEndtime} ,</if>
+          <if test="rLinkman != null" >`rLinkman` = #{rLinkman} ,</if>
+        <if test="rType != null" >`rType` = #{rType} ,</if>
+          <if test="rLinkemail != null" >`rLinkemail` = #{rLinkemail} ,</if>
+          <if test="rLinkaddress != null" >`rLinkaddress` = #{rLinkaddress} ,</if>
+          <if test="gtmCreate != null" >`gtm_create` = #{gtmCreate,jdbcType=TIMESTAMP} ,</if>
+          <if test="gtmModified != null" >`gtm_modified` = #{gtmModified,jdbcType=TIMESTAMP} ,</if>
+          <if test="rintroduce != null" >`rintroduce` = #{rintroduce} ,</if>
+          <if test="rResearea != null" >`rResearea` = #{rResearea} ,</if>
+          <if test="requirment != null" >`requirment` = #{requirment} ,</if>
+          <if test="rComment != null" >`rComment` = #{rComment}, </if>
+        <if test="Created != null" > `Created`=#{Created},</if>
+        <if test="Modified != null" >`Modified`=#{Modified}</if>
+    </set>
+    where rid = #{rid}
+  </update>
+</mapper>

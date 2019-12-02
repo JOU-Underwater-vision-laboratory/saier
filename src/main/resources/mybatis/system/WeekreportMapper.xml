@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.system.dao.WeekreportDao">
+
+	<select id="get" resultType="com.hhit.system.domain.WeekreportDO">
+		select `wid`,`uid`,`created`,`deptid`,`wContent`,`gtm_create`,`gtm_modified`,`CreateBy`,`is_read` from sys_weekreport where wid = #{value}
+	</select>
+
+	<select id="findAll" resultType="com.hhit.system.domain.WeekreportDO">
+		select `wid`,`uid`,`created`,`deptid`,`wContent`,`gtm_create`,`gtm_modified`,`CreateBy`,`is_read` from sys_weekreport
+		<where>
+			<if test="wid != null "> and wid = #{wid} </if>
+			<if test="uid != null "> and uid = #{uid} </if>
+			<if test="deptid != null "> and deptid = #{deptid} </if>
+			<if test="created != null and created!=''"> and created = #{created} </if>
+			<if test="wContent != null "> and wContent = #{wContent} </if>
+			<if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+			<if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+			<if test="createBy != null "> and CreateBy = #{createBy} </if>
+			<if test="isRead != null "> and is_read = #{isRead} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by wid desc
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="list" resultType="com.hhit.system.domain.WeekreportDO">
+		select `wid`,`created`,`wContent`,`deptid`,`gtm_create`,`gtm_modified`,`uid`,`CreateBy`,`is_read`  from sys_weekreport
+        <where>  
+		  		  <if test="wid != null "> and wid = #{wid} </if>
+				  <if test="uid != null "> and uid = #{uid} </if>
+				  <if test="deptid != null "> and deptid = #{deptid} </if>
+
+		  		  <if test="created != null and created != ''"> and created like '%${created}%' </if>
+		  		  
+		  		  <if test="wContent != null "> and wContent = #{wContent} </if>
+
+		  		  <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+			<if test="createBy != null "> and CreateBy = #{createBy} </if>
+			<if test="isRead != null "> and is_read = #{isRead} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by wid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_weekreport
+		 <where>  
+		  		  <if test="wid != null "> wid = #{wid} </if>
+			 	  <if test="uid != null "> and uid = #{uid} </if>
+			 	  <if test="deptid != null ">  and deptid = #{deptid} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  
+		  		  <if test="wContent != null and wContent != ''"> and wContent = #{wContent} </if>
+		  		  <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+			 <if test="createBy != null "> and CreateBy = #{createBy} </if>
+			 <if test="isRead != null "> and is_read = #{isRead} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.system.domain.WeekreportDO" useGeneratedKeys="true" keyProperty="wid">
+		insert into sys_weekreport
+		(
+			`wContent`,
+			`deptid`,
+			`uid`,
+			`created`, 
+			`gtm_create`, 
+			`gtm_modified`,
+			`CreateBy`,
+			`is_read`
+		)
+		values
+		( 
+			#{wContent},
+			#{deptid},
+			#{uid},
+			#{created},
+			#{gtmCreate,jdbcType=TIMESTAMP},
+			#{gtmModified,jdbcType=TIMESTAMP},
+			#{createBy},
+			#{isRead}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.system.domain.WeekreportDO">
+		update sys_weekreport 
+		<set>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="deptid != null">`deptid` = #{deptid}, </if>
+			<if test="uid != null ">  `uid` = #{uid} ,</if>
+			<if test="wContent != null">`wContent` = #{wContent}, </if>
+			<if test="gtmCreate != null">`gtm_create` = #{gtmCreate,jdbcType=TIMESTAMP}, </if>
+			<if test="gtmModified != null">`gtm_modified` = #{gtmModified,jdbcType=TIMESTAMP},</if>
+			<if test="createBy != null">`CreateBy` = #{createBy}, </if>
+			<if test="isRead != null">`is_read` = #{isRead}</if>
+		</set>
+		where wid = #{wid}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_weekreport where wid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_weekreport where wid in 
+		<foreach item="wid" collection="array" open="(" separator="," close=")">
+			#{wid}
+		</foreach>
+	</delete>
+
+</mapper>

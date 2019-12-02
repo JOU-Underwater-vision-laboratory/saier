@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.downloadRes.dao.SoftPicDao">
+
+    <resultMap id="softPicDo"  type="com.hhit.downloadRes.domain.SoftPicDO">
+        <id property="soft_fid" column="soft_fid" javaType="Long"/>
+        <result property="soft_pic01" column="soft_pic01" javaType="String"/>
+    </resultMap>
+
+    <select id="findByFid"  resultMap="softPicDo">
+        select `soft_fid`,`soft_pic01`  from sys_soft_pic where soft_fid = #{value}
+    </select>
+
+	<select id="find"  resultMap="softPicDo">
+		select `soft_fid`,`soft_pic01`   from sys_soft_pic where soft_fid = #{soft_fid} and soft_pic01 = #{soft_pic01}
+	</select>
+
+	<select id="get"  resultMap="softPicDo">
+		select  `soft_fid`,`soft_pic01`  from sys_soft_pic where soft_fid = #{value}
+	</select>
+
+	<select id="list"  resultType="com.hhit.downloadRes.domain.SoftPicDO">
+		select `soft_fid`,`soft_pic01` from sys_soft_pic
+        <where>
+
+		  		  <if test="soft_fid != null and soft_fid != ''"> and soft_fid = #{soft_fid} </if>
+			      <if test="soft_pic01 != null and soft_pic01 != ''"> and soft_pic01 = #{soft_pic01} </if>
+
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by soft_fid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_soft_pic
+		 <where>
+
+			 <if test="soft_fid != null and soft_fid != ''"> and soft_fid = #{soft_fid} </if>
+			 <if test="soft_pic01 != null and soft_pic01 != ''"> and soft_name = #{soft_name} </if>
+
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.downloadRes.domain.SoftPicDO" useGeneratedKeys="true" keyProperty="soft_fid" >
+		insert into sys_soft_pic
+		(
+				`soft_fid`,`soft_pic01`
+		)
+		values
+		(
+			#{soft_fid},
+			#{soft_pic01}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.downloadRes.domain.SoftPicDO">
+		update sys_soft_pic
+		<set>
+			<if test="soft_fid != null and soft_fid != ''"> and soft_fid = #{soft_fid} </if>
+			<if test="soft_pic01 != null and soft_pic01 != ''"> and soft_pic01 = #{soft_pic01} </if>
+
+		</set>
+		where soft_id = #{soft_fid}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_soft_pic where soft_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_soft_pic where soft_id in
+		<foreach item="soft_fid" collection="array" open="(" separator="," close=")">
+			#{soft_fids}
+		</foreach>
+	</delete>
+
+</mapper>

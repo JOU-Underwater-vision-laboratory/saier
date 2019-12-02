@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="col-sm-12">
+							<h4>发布成果集</h4>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<input id="pid" name="pid" type="hidden" th:value="${publication.pid}">
+							<input id="created" name="created" type="hidden" th:value="${publication.created}">
+							<input id="modified" name="modified" type="hidden" th:value="${publication.modified}">
+							<input id="Tpcategories" name="Tpcategories" th:value="${publication.pcategories}" type="hidden">
+							<div class="form-group">
+								<label class="col-sm-1 control-label">分类：</label>
+								<div class="col-sm-8">
+									<select data-placeholder="--选择分类--" name="pcategories" id="pcategories"
+											class="form-control chosen-select-category" tabindex="2">
+										<option value="">-- 选择分类-</option>
+										<!--<option th:each="membergroup : ${membergroup}" th:value="${membergroup.value}" th:text="${membergroup.name}" th:if="${membergroup.remarks ==checked}" th:selected="selected"></option>-->
+									</select>
+								</div>
+							</div>
+							<!--<div class="form-group">-->
+								<!--<label class="col-sm-1 control-label">分类：</label>-->
+								<!--<div class="col-sm-4">-->
+									<!--<select id="pcategories" name="pcategories" class="form-control">-->
+										<!--<option value="0">Thesis</option>-->
+										<!--<option value="1">Journal Papers</option>-->
+										<!--<option value="2">Conference Papers</option>-->
+										<!--<option value="3">Patents</option>-->
+										<!--<option value="4">Software copyright</option>-->
+										<!--<option value="5">Awards</option>-->
+									<!--</select>-->
+								<!--</div>-->
+							<!--</div>-->
+							<div class="form-group">
+								<input id="ppublications" name="ppublications" type="hidden" th:value="${publication.ppublications}">  <label
+									class="col-sm-1 control-label">成果简述：</label>
+								<div class="col-sm-11">
+									<div class="ibox-content no-padding">
+										<div id="content_sn" class="summernote"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right form-group">
+								<a class="btn btn-default waves-effect waves-light"
+									onclick="returnList()">返回列表</a>
+								<button type="button"
+									class="btn btn-primary waves-effect waves-light"
+									onclick="save(1)">保存修改</button>
+								<!--<button type="button"-->
+									<!--class="btn btn-warning waves-effect waves-light"-->
+									<!--onclick="save(0)">存为草稿</button>-->
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/site/publication/edit.js">
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.site.dao.NewsDao">
+
+	<select id="get" resultType="com.hhit.site.domain.NewsDO">
+		select `nid`,`nyear`,`nmonth`,`created`,`modified`,`nContent`,`gtm_create`,`gtm_modified` from site_news where nid = #{value}
+	</select>
+
+	<select id="findAll" resultType="com.hhit.site.domain.NewsDO">
+		select `nid`,`nyear`,`nmonth`,`created`,`modified`,`nContent`,`gtm_create`,`gtm_modified` from site_news
+		<where>
+			<if test="nid != null "> and nid = #{nid} </if>
+			<if test="nyear != null "> and nyear = #{nyear} </if>
+			<if test="nmonth != null "> and nmonth = #{nmonth} </if>
+			<if test="created != null and created != ''"> and created = #{created} </if>
+			<if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			<if test="nContent != null and nContent != ''"> and nContent = #{nContent} </if>
+			<if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+			<if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by nid desc
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="list" resultType="com.hhit.site.domain.NewsDO">
+		select `nid`,`nyear`,`nmonth`,`created`,`modified`,`nContent`,`gtm_create`,`gtm_modified` from site_news
+        <where>
+		  		  <if test="nid != null "> and nid = #{nid} </if>
+		  		  <if test="nyear != null "> and nyear = #{nyear} </if>
+		  		  <if test="nmonth != null and nmonth != ''"> and nmonth = #{nmonth} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  		  <if test="nContent != null and nContent != ''"> and nContent like '%${nContent}%' </if>
+		  		  <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by nid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from site_news
+		 <where>
+		  		  <if test="nid != null "> nid = #{nid} </if>
+		  		  <if test="nyear != null "> and nyear = #{nyear} </if>
+		  		  <if test="nmonth != null "> and nmonth = #{nmonth} </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  		  <if test="nContent != null and nContent != ''"> and nContent = #{nContent} </if>
+		  		  <if test="gtmCreate != null "> and gtm_create = #{gtmCreate} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified} </if>
+		  		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hhit.site.domain.NewsDO" useGeneratedKeys="true" keyProperty="nid">
+		insert into site_news
+		(
+			`nyear`,
+			`nmonth`,
+			`created`,
+			`modified`,
+			`nContent`,
+			`gtm_create`,
+			`gtm_modified`
+		)
+		values
+		(
+			#{nyear},
+			#{nmonth},
+			#{created},
+			#{modified},
+			#{nContent},
+			#{gtmCreate,jdbcType=TIMESTAMP},
+			#{gtmModified,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hhit.site.domain.NewsDO">
+		update site_news
+		<set>
+			<if test="nyear != null">`nyear` = #{nyear}, </if>
+			<if test="nmonth != null">`nmonth` = #{nmonth}, </if>
+			<if test="created != null">`created` = #{created}, </if>
+			<if test="modified != null">`modified` = #{modified}, </if>
+			<if test="nContent != null">`nContent` = #{nContent}, </if>
+			<if test="gtmCreate != null">`gtm_create` = #{gtmCreate,jdbcType=TIMESTAMP}, </if>
+			<if test="gtmModified != null">`gtm_modified` = #{gtmModified,jdbcType=TIMESTAMP}</if>
+		</set>
+		where nid = #{nid}
+	</update>
+	
+	<delete id="remove">
+		delete from site_news where nid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from site_news where nid in 
+		<foreach item="nid" collection="array" open="(" separator="," close=")">
+			#{nid}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.system.dao.ReplyRecordDao">
+
+	<select id="get" resultType="com.hhit.system.domain.ReplyRecordDO">
+		select
+		`id`,`report_id`,`user_id`,`is_read`,`read_date` from sys_reply_record
+		where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.hhit.system.domain.ReplyRecordDO">
+		select `id`,`report_id`,`user_id`,`is_read`,`read_date` from
+		sys_reply_record
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="reportId != null and reportId != ''"> and report_id = #{reportId} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="isRead != null and isRead != ''"> and is_read = #{isRead} </if>
+			<if test="readDate != null and readDate != ''"> and read_date = #{readDate} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by #{sort} #{order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_reply_record
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="reportId != null and reportId != ''"> and report_id = #{reportId} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="isRead != null and isRead != ''"> and is_read = #{isRead} </if>
+			<if test="readDate != null and readDate != ''"> and read_date = #{readDate} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hhit.system.domain.ReplyRecordDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_reply_record
+		(
+		`report_id`,
+		`user_id`,
+		`is_read`,
+		`read_date`
+		)
+		values
+		(
+		#{reportId},
+		#{userId},
+		#{isRead},
+		#{readDate}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hhit.system.domain.ReplyRecordDO">
+		update sys_reply_record
+		<set>
+			<if test="reportId != null">`report_id` = #{reportId}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="isRead != null">`is_read` = #{isRead}, </if>
+			<if test="readDate != null">`read_date` = #{readDate}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from sys_reply_record where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_reply_record where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	<insert id="batchSave" parameterType="com.hhit.system.domain.ReplyRecordDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_reply_record
+		(`report_id`,
+		`user_id`,
+		`is_read`,
+		`read_date`
+		)
+		values
+		<foreach item="item" index="index" collection="list"
+			separator=",">
+			(
+			#{item.reportId},
+			#{item.userId},
+			#{item.isRead},
+			#{item.readDate}
+			)
+		</foreach>
+	</insert>
+
+	<select id="listreportIds" resultType="long">
+		select distinct report_id from sys_reply_record
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="reportId != null and reportId != ''"> and report_id = #{reportId} </if>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="isRead != null and isRead != ''"> and is_read = #{isRead} </if>
+			<if test="readDate != null and readDate != ''"> and read_date = #{readDate} </if>
+		</where>
+	</select>
+
+	<delete id="removeByNotifbyId">
+		delete from sys_reply_record where report_id =
+		#{value}
+	</delete>
+
+	<delete id="batchRemoveByNotifbyId">
+		delete from sys_reply_record where report_id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="changeRead" parameterType="com.hhit.system.domain.ReplyRecordDO">
+		update sys_reply_record
+		<set>
+			<if test="isRead != null">`is_read` = #{isRead}, </if>
+			<if test="readDate != null">`read_date` = #{readDate}</if>
+		</set>
+		where report_id = #{reportId} and user_id = #{userId}
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="wid" name="wid" type="hidden" th:value="${weekreport.wid}">
+                        <input id="uid" name="uid" type="hidden" th:value="${weekreport.uid}">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">类型：</label>
+                            <div class="col-sm-4">
+                                <select data-placeholder="--选择类别--"  readonly="readonly" name="type" id="type"
+                                        class="form-control chosen-select" tabindex="2" required >
+                                    <!--<option value="">&#45;&#45;类型&#45;&#45;</option>-->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="col-sm-3 control-label">周报提交人：</label>
+                                <div class="col-sm-4">
+                                    <input id="created" name="created" type="text" readonly="readonly"  th:value="${weekreport.created}">
+                                </div>
+                        </div>
+                        <div class="form-group">
+                            <input id="wContent" name="wContent" type="hidden"
+                                   th:value="${weekreport.wContent}" readonly="readonly"><label
+                                class="col-sm-1 control-label">周报内容：</label>
+                            <div class="col-sm-11">
+                                <div class="ibox-content no-padding">
+                                    <div id="content_sn" class="summernote" readonly="readonly"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input id="wreply" name="wreply" type="hidden"
+                                   ><label
+                                class="col-sm-1 control-label">批复内容：</label>
+                            <div class="col-sm-11">
+                                <div class="ibox-content no-padding">
+                                    <div id="content_reply" class="summernote"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">接收人：</label>
+                            <div class="col-sm-8">
+                                <input id="userIds" name="userIds" class="hidden">
+                                <input id="userNames" name="userNames" class="form-control"
+                                        type="text" onclick="openUser()"
+                                        readonly="readonly" placeholder="接收人">
+                            </div>
+                        </div>
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label">立即发送：</label>-->
+                            <!--<div class="switch  col-sm-1">-->
+                                <!--<div class="onoffswitch">-->
+                                    <!--<input id="status" name="status" checked="" type="checkbox"-->
+                                           <!--value="1" class="onoffswitch-checkbox"> <label-->
+                                        <!--class="onoffswitch-label" for="status"> <span-->
+                                        <!--class="onoffswitch-inner"></span> <span-->
+                                        <!--class="onoffswitch-switch"></span>-->
+                                <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">备注信息：</label>
+                            <div class="col-sm-8">
+                                <textarea id="remarks" name="remarks" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">马上发送</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/sys/weekreport/reply.js">
+
+</script>
+</body>
+</html>

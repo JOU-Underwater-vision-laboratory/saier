@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.downloadRes.dao.SoftwareDao">
+
+    <select id="findByFid"  resultType="com.hhit.downloadRes.domain.SoftwareDO">
+        select `soft_id`,`soft_create_date`,`soft_fid`,`soft_name`,`soft_introduction`,`soft_keywords`,`soft_function`,`soft_author`,`soft_authorEmail`,`soft_version`,`soft_type`,`soft_comment`,`soft_open`,`soft_createby`  from sys_file_soft where soft_fid = #{value}
+    </select>
+
+	<select id="find"  resultType="com.hhit.downloadRes.domain.SoftwareDO">
+		select `soft_id`,`soft_create_date`,`soft_fid`,`soft_name`,`soft_introduction`,`soft_keywords`,`soft_function`,`soft_author`,`soft_authorEmail`,`soft_version`,`soft_type`,`soft_comment`,`soft_open`,`soft_createby`  from sys_file_soft where soft_name = #{soft_name} and soft_version = #{softVersion}
+	</select>
+
+	<select id="get"  resultType="com.hhit.downloadRes.domain.SoftwareDO">
+		select  `soft_id`,`soft_create_date`,`soft_fid`,`soft_name`,`soft_introduction`,`soft_keywords`,`soft_function`,`soft_author`,`soft_authorEmail`,`soft_version`,`soft_type`,`soft_comment`,`soft_open`,`soft_createby`  from sys_file_soft where soft_id = #{value}
+	</select>
+
+	<select id="list"  resultType="com.hhit.downloadRes.domain.SoftwareDO">
+		select `soft_id`,`soft_create_date`,`soft_fid`,`soft_name`,`soft_introduction`,`soft_keywords`,`soft_function`,`soft_author`,`soft_authorEmail`,`soft_version`,`soft_type`,`soft_comment`,`soft_open`,`soft_createby` from sys_file_soft
+        <where>
+			<if test="softId != null "> and soft_id = #{softId} </if>
+		  		  <if test="softCreateDate != null "> and soft_create_date = #{softCreateDate} </if>
+		  		  <if test="softFid != null and softFid != ''"> and soft_fid = #{softFid} </if>
+			      <if test="softName != null "> and soft_name = #{softName} </if>
+                  <if test="softIntroduction != null "> and soft_introduction = #{softIntroduction} </if>
+				  <if test="softKeywords != null and softKeywords != ''"> and soft_keywords like '%${softKeywords}%' </if>
+				  <if test="softFunction != null "> and soft_function = #{softFunction} </if>
+				  <if test="softAuthor != null  "> and soft_author = #{softAuthor} </if>
+				  <if test="softAuthorEmail != null  "> and soft_authorEmail = #{softAuthorEmail} </if>
+			      <if test="softVersion != null  "> and soft_version = #{softVersion} </if>
+			<if test="softType != null  "> and soft_type = #{softType} </if>
+			<if test="softComment != null  "> and soft_comment = #{softComment} </if>
+			<if test="softopen != null  "> and soft_open = #{softopen} </if>
+			<if test="softCreateby != null  "> and soft_createby = #{softCreateby} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by soft_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_file_soft
+		 <where>
+			 <if test="softCreateDate != null "> and soft_create_date = #{softCreateDate} </if>
+			 <if test="softFid != null and softFid != ''"> and soft_fid = #{softFid} </if>
+			 <if test="softName != null and softName != ''"> and soft_name = #{softName} </if>
+			 <if test="softIntroduction != null and softIntroduction != ''"> and soft_introduction = #{softIntroduction} </if>
+			 <if test="softKeywords != null and softKeywords != ''"> and soft_keywords = #{softKeywords} </if>
+			 <if test="softFunction != null and softFunction != ''"> and soft_function = #{softFunction} </if>
+			 <if test="softAuthor != null and softAuthor != ''"> and soft_author = #{softAuthor} </if>
+			 <if test="softAuthorEmail != null and softAuthorEmail != ''"> and soft_authorEmail = #{softAuthorEmail} </if>
+			 <if test="softVersion != null and softVersion != ''"> and soft_version = #{softVersion} </if>
+			 <if test="softType != null and softType != ''"> and soft_type = #{softType} </if>
+			 <if test="softComment != null and softComment != ''"> and soft_comment = #{softComment} </if>
+			 <if test="softopen != null  "> and soft_open = #{softopen} </if>
+			 <if test="softCreateby != null  "> and soft_createby = #{softCreateby} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.downloadRes.domain.SoftwareDO" useGeneratedKeys="true" keyProperty="softId" >
+		insert into sys_file_soft
+		(
+				`soft_id`,`soft_create_date`,`soft_fid`,`soft_name`,`soft_introduction`,`soft_keywords`,`soft_function`,`soft_author`,`soft_authorEmail`,`soft_version`,`soft_type`,`soft_comment`,`soft_open`,`soft_createby`
+		)
+		values
+		(
+			#{softId},
+			#{softCreateDate},
+			#{softFid},
+			#{softName},
+			#{softIntroduction},
+			#{softKeywords},
+			#{softFunction},
+			#{softAuthor},
+		 	#{softAuthorEmail},
+		 	#{softVersion},
+		 	#{softType},
+		 	#{softComment},
+		 	#{softopen},
+		 	#{softCreateby}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.downloadRes.domain.SoftwareDO">
+		update sys_file_soft
+		<set>
+			<if test="softCreateDate != null ">  soft_create_date = #{softCreateDate}, </if>
+			<if test="softFid != null and softFid != ''">  soft_fid = #{softFid} ,</if>
+			<if test="softName != null and softName != ''">  soft_name = #{softName}, </if>
+			<if test="softIntroduction != null and softIntroduction != ''">  soft_introduction = #{softIntroduction}, </if>
+			<if test="softKeywords != null and softKeywords != ''">  soft_keywords = #{softKeywords}, </if>
+			<if test="softFunction != null and softFunction != ''">  soft_function = #{softFunction}, </if>
+			<if test="softAuthor != null and softAuthor != ''">  soft_author = #{softAuthor}, </if>
+			<if test="softAuthorEmail != null and softAuthorEmail != ''">  soft_authorEmail = #{softAuthorEmail} ,</if>
+			<if test="softVersion != null and softVersion != ''">  soft_version = #{softVersion}, </if>
+			<if test="softType != null and softType != ''"> soft_type = #{softType}, </if>
+			<if test="softComment != null and softComment != ''">  soft_comment = #{softComment}, </if>
+			<if test="softopen != null "> soft_open = #{softopen}, </if>
+			<if test="softCreateby != null and softCreateby != ''">  soft_createby = #{softCreateby} </if>
+		</set>
+		where soft_id = #{softId}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_file_soft where soft_id = #{value}
+	</delete>
+
+    <delete id="removeByFid">
+        delete from sys_file_soft where soft_fid = #{value}
+    </delete>
+
+
+	
+	<delete id="batchRemove">
+		delete from sys_file_soft where soft_id in
+		<foreach item="soft_id" collection="array" open="(" separator="," close=")">
+			#{softId}
+		</foreach>
+	</delete>
+
+</mapper>

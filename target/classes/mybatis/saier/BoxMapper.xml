@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.BoxDao">
+
+	<resultMap id="box" type="com.hhit.saier.domain.BoxDO">
+		<result property="id" column="id" javaType="Integer"/>
+		<result property="gridId" column="grid_id" javaType="Integer"/>
+		<result property="boxId" column="box_id" javaType="Integer"/>
+		<result property="mboxid" column="mid" javaType="String" />
+		<result property="rest" column="rest" javaType="Integer"/>
+		<result property="created" column="created" javaType="Integer"/>
+		<result property="name" column="name" javaType="String"/>
+	</resultMap>
+
+	<select id="get"  resultMap="box">
+		select id,grid_id, box_id, mid, rest,created,name from box where id = #{value}
+	</select>
+	<select id="findByGB1"  resultMap="box">
+		select id,grid_id, box_id, mid, rest,created,name  from box where grid_id = #{gid} and box_id = #{bid}
+	</select>
+	<select id="findByGB2"  resultMap="box">
+		select id,grid_id, box_id, mid, rest,created,name  from box where grid_id = #{gid} and  box_id = #{bid} and  mid like '%${mid}%'
+	</select>
+	<select id="findByLicense"  resultMap="box">
+		select id,grid_id, box_id, mid, rest,created,name from box
+		<where>
+			<if test="gridId != null "> and grid_id = #{gridId} </if>
+			<if test="boxId != null "> and box_id = #{boxId} </if>
+			<if test="mboxid != null and mboxid != ''"> and mid like '%${mboxid}%' </if>
+			<if test="rest != null "> and rest = #{rest} </if>
+			<if test="name != null and name!='' "> and `name` = #{name} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by grid_id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="list"  resultMap="box">
+		select id,grid_id, box_id, mid, rest from box
+        <where>
+			<if test="gridId != null "> and grid_id = #{gridId} </if>
+			<if test="boxId != null "> and box_id = #{boxId} </if>
+			<if test="mboxid != null and mboxid != ''"> and mid like '%${mboxid}%' </if>
+			<if test="rest != null "> and rest = #{rest} </if>
+			<if test="name != null and name!='' "> and `name` = #{name} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by grid_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from box
+		 <where>
+			 <if test="gridId != null "> and grid_id = #{gridId} </if>
+		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.BoxDO" useGeneratedKeys="true" keyProperty="id" >
+		insert into box
+		(
+    		grid_id, box_id, mid, rest,created,name
+		)
+		values
+		(
+			#{gridId}, #{boxId}, #{mboxid}, #{rest},#{created},#{name}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.BoxDO">
+		update box
+		<set>
+			<if test="gridId != null ">  grid_id = #{gridId}, </if>
+			<if test="boxId != null ">  box_id = #{boxId}, </if>
+			<!--<if test="mboxid != null and mboxid!='' ">  mid = #{mboxid}, </if>-->
+			<if test="rest != null ">  rest = #{rest}</if>
+  		</set>
+		where id= #{id}
+	</update>
+	<update id="updateM" parameterType="com.hhit.saier.domain.BoxDO">
+		update box
+		<set>
+			<if test="gridId != null ">  grid_id = #{gridId}, </if>
+			<if test="boxId != null ">  box_id = #{boxId}, </if>
+			<!--<if test="mboxid != null and mboxid!='' ">  mid = #{mboxid}, </if>-->
+			<if test="rest != null ">  rest = #{rest}</if>
+		</set>
+		where grid_id = #{gridId}
+	</update>
+	
+	<delete id="remove">
+		delete from box where id = #{value}
+	</delete>
+
+	<delete id="removeM">
+		delete from box where  box_id=#{boxId} and  mid=#{mboxid}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from box where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

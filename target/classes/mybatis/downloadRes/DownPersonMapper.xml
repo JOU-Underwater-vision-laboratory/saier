@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.downloadRes.dao.DownPersonDao">
+
+    <resultMap id="downPerson"  type="com.hhit.downloadRes.domain.DownPerson">
+        <id property="person_id" column="person_id" javaType="Integer"/>
+        <result property="person_name" column="person_name" javaType="String"/>
+        <result property="person_email" column="person_email" javaType="String"/>
+        <result property="person_country" column="person_country" javaType="String"/>
+        <result property="person_institution" column="person_institution" javaType="String" />
+        <result property="fid" column="fid" javaType="String" />
+    </resultMap>
+
+	<select id="find"  resultMap="downPerson">
+		select `person_id`,`person_name`,`person_email`,`person_country`,`person_institution`,`fid`  from downperson where person_name = #{value}
+	</select>
+
+	<select id="get"  resultMap="downPerson">
+		select  `person_id`,`person_name`,`person_email`,`person_country`,`person_institution`,`fid`  from downperson where person_id = #{value}
+	</select>
+
+	<select id="list"  resultType="com.hhit.downloadRes.domain.DownPerson">
+		select `person_id`,`person_name`,`person_email`,`person_country`,`person_institution` from downperson
+        <where>
+		  		  <if test="person_name != null and person_name != ''"> and person_name = #{person_name} </if>
+		  		  <if test="person_email != null and person_email != ''"> and person_email = #{person_email} </if>
+		  		  <if test="person_country != null and person_country != ''"> and person_country = #{person_country} </if>
+			      <if test="person_institution != null and person_institution != ''"> and person_institution = #{person_institution} </if>
+                  <if test="fid != null and fid != ''"> and fid = #{fid} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by person_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from downperson
+		 <where>
+
+			 <if test="person_name != null and person_name != ''"> and person_name = #{person_name} </if>
+			 <if test="person_email != null and person_email != ''"> and person_email = #{person_email} </if>
+			 <if test="person_country != null and person_country != ''"> and person_country = #{person_country} </if>
+			 <if test="person_institution != null and person_institution != ''"> and person_institution = #{person_institution} </if>
+             <if test="fid != null">`fid` = #{fid} </if>
+		  		</where>
+	</select>
+
+	<insert id="save" parameterType="com.hhit.downloadRes.domain.DownPerson" useGeneratedKeys="true" keyProperty="person_id" >
+		insert into downperson
+		(
+			`person_name`,
+			`person_email`,
+			`person_country`,
+			`person_institution`
+		)
+		values
+		(
+			#{person_name},
+			#{person_email},
+			#{person_country},
+			#{person_institution}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.hhit.downloadRes.domain.DownPerson">
+		update downperson
+		<set>
+			<if test="person_name != null">`person_name` = #{person_name}, </if>
+			<if test="person_email != null">`person_email` = #{person_email}, </if>
+			<if test="person_country != null">`person_country` = #{person_country},</if>
+			<if test="person_institution != null">`person_institution` = #{person_institution}, </if>
+            <if test="fid != null">`fid` = #{fid} </if>
+		</set>
+		where person_id = #{person_id}
+	</update>
+
+	<delete id="remove">
+		delete from downperson where person_id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from downperson where person_name in
+		<foreach item="person_id" collection="array" open="(" separator="," close=")">
+			#{person_id}
+		</foreach>
+	</delete>
+
+</mapper>

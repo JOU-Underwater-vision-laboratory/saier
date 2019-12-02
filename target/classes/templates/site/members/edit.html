@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="col-sm-12">
+							<h4>修改成员信息</h4>
+						</div>
+                        <form class="form-horizontal m-t"  id="signupForm">
+							<input id="mid" name="mid" type="hidden"
+								th:value="${member.mid}">
+                            <input id="created" name="created" type="hidden" th:value="${member.created}">
+                            <input id="modified" name="modified" type="hidden" th:value="${member.modified}">
+                            <div class="form-group" align="center">
+                                <label class="col-sm-1 control-label">姓名：</label>
+                                <div class="col-sm-4">
+                                    <input id="mname" name="mname" class="form-control" type="text"
+                                    th:value="${member.mname}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">Name：</label>
+                                <div class="col-sm-4">
+                                    <input id="mnameEng" name="mnameEng" class="form-control" type="text"
+                                           th:value="${member.mnameEng}">
+                                </div>
+                            </div>
+                            <input id="Tcategory" name="Tcategory" th:value="${member.mcategory}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">合作关系：</label>
+                                <div class="col-sm-8">
+                                    <select data-placeholder="--选择合作关系--" name="mcategory" id="mcategory"
+                                            class="form-control chosen-select-category" tabindex="2">
+                                        <option value="">--选择合作关系--</option>
+                                        <!--<option th:each="memberjob : ${memberjob}"  th:value="${memberjob.value}"  th:text="${memberjob.name}" th:if="${memberjob.remarks ==checked}" th:selected="selected"></option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">-->
+                                <!--<label class="col-sm-1 control-label">职称/身份：</label>-->
+                                <!--<div class="col-sm-4">-->
+                                    <!--<select id="mcategory" name="mcategory" class="form-control" >-->
+                                        <!--<option value="teacher">teacher</option>-->
+                                        <!--<option value="student">student</option>-->
+                                        <!--<option value="Collaborators">Collaborators</option>-->
+                                        <!--<option value="Former">Former</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <input id="Tmjob" name="Tmjob" th:value="${member.mjob}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">职称/身份：</label>
+                                <div class="col-sm-8">
+                                    <select data-placeholder="--选择职称/身份--" name="mjob" id="mjob"
+                                            class="form-control chosen-select-job" tabindex="2">
+                                        <option value="">-- 选择职称身份--</option>
+                                        <!--<option th:each="memberjob : ${memberjob}"  th:value="${memberjob.value}"  th:text="${memberjob.name}" th:if="${memberjob.remarks ==checked}" th:selected="selected"></option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <input id="Tmgroup" name="Tmgroup" th:value="${member.mgroup}" type="hidden">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">研究分组：</label>
+                                <div class="col-sm-8">
+                                    <select data-placeholder="--选择分组--" name="mgroup" id="mgroup"
+                                            class="form-control chosen-select-group" tabindex="2">
+                                        <option value="">-- 选择分组-</option>
+                                        <!--<option th:each="membergroup : ${membergroup}" th:value="${membergroup.value}" th:text="${membergroup.name}" th:if="${membergroup.remarks ==checked}" th:selected="selected"></option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="mintroduce" name="mintroduce" type="hidden" th:value="${member.mintroduce}"> <label
+                                    class="col-sm-1 control-label">个人介绍：</label>
+                                <div class="col-sm-11">
+                                    <div class="ibox-content no-padding">
+                                        <div id="content_sn" class="summernote"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="mintroduceEng" name="mintroduceEng" type="hidden" th:value="${member.mintroduceEng}"> <label
+                                    class="col-sm-1 control-label">个人介绍英文版：</label>
+                                <div class="col-sm-11">
+                                    <div class="ibox-content no-padding">
+                                        <div id="content_sn_Eng" class="summernote"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="mResearea" name="mResearea" type="hidden" th:value="${member.mResearea}"> <label
+                                    class="col-sm-1 control-label">研究领域：</label>
+                                <div class="col-sm-11">
+                                    <div class="ibox-content no-padding">
+                                        <div id="content_sn_area" class="summernote"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input id="mReseareaEng" name="mReseareaEng" type="hidden" th:value="${member.mReseareaEng}"> <label
+                                    class="col-sm-1 control-label">研究领域(Eng)：</label>
+                                <div class="col-sm-11">
+                                    <div class="ibox-content no-padding">
+                                        <div id="content_sn_area_Eng" class="summernote"></div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="text-right form-group">
+								<a class="btn btn-default waves-effect waves-light"
+									onclick="returnList()">返回列表</a>
+								<a  class="btn btn-primary waves-effect waves-light"
+									onclick="save(1)">保存修改</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/site/member/edit.js">
+	</script>
+</body>
+</html>

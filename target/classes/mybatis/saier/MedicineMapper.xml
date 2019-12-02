@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.MedicineDao">
+
+	<select id="findByName"  resultType="java.lang.String">
+		select  licensenumber from medicine where medicinename = #{value}	</select>
+
+	<select id="get"  resultType="com.hhit.saier.domain.MedicineDO">
+		select  licensenumber, medicinename, activeingredient, medcharacter, dose, dosage, contraindication, indication, dosagefromdoc, untowardeffect, druginteraction, periodvalidity, manufacturer, storageconditions,bar_code  from medicine where licensenumber = #{value}
+	</select>
+
+	<select id="getByBarCode"  resultType="com.hhit.saier.domain.MedicineDO">
+		select  licensenumber, medicinename, activeingredient, medcharacter, dose, dosage, contraindication, indication, dosagefromdoc, untowardeffect, druginteraction, periodvalidity, manufacturer, storageconditions,bar_code  from medicine where bar_code = #{value}
+	</select>
+
+
+	<select id="list"  resultType="com.hhit.saier.domain.MedicineDO">
+		select licensenumber, medicinename, activeingredient, medcharacter, dose, dosage, contraindication, indication, dosagefromdoc, untowardeffect, druginteraction, periodvalidity, manufacturer, storageconditions,bar_code  from medicine
+        <where>
+			<if test="licensenumber != null and licensenumber != ''"> and licensenumber = #{licensenumber} </if>
+		  		  <if test="medicinename != null and medicinename != '' "> and medicinename = #{medicinename} </if>
+		  		  <if test="activeingredient != null and activeingredient != ''"> and activeingredient = #{activeingredient} </if>
+			      <if test="medcharacter != null and medcharacter != '' "> and medcharacter = #{medcharacter} </if>
+                  <if test="dose!= null and dose!= ''"> and dose= #{dose} </if>
+				  <if test="dosage != null and dosage != ''"> and dosage like '%${dosage}%' </if>
+				  <if test="contraindication!= null and contraindication!= '' "> and contraindication = #{contraindication} </if>
+				  <if test="indication != null and indication != ''  "> and indication = #{indication} </if>
+				  <if test="indicationEmail != null and indicationEmail != '' "> and indicationEmail = #{indicationEmail} </if>
+			      <if test="dosagefromdoc != null and dosagefromdoc != '' "> and dosagefromdoc = #{dosagefromdoc} </if>
+			<if test="untowardeffect != null and untowardeffect !='' "> and untowardeffect = #{untowardeffect} </if>
+			<if test="druginteraction != null and  druginteraction != '' "> and druginteraction = #{druginteraction} </if>
+			<if test="periodvalidity != null and periodvalidity != '' "> and periodvalidity = #{periodvalidity} </if>
+			<if test="manufacturer != null and manufacturer != '' "> and manufacturer = #{manufacturer} </if>
+			<if test="storageconditions != null and  storageconditions != '' "> and storageconditions = #{storageconditions} </if>
+			<if test="barCode != null and  barCode != '' "> and bar_code = #{barCode} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by licensenumber desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from medicine
+		 <where>
+			 <if test="medicinename != null "> and medicinename = #{medicinename} </if>
+			 <if test="activeingredient != null and activeingredient != ''"> and activeingredient = #{activeingredient} </if>
+			 <if test="medcharacter != null and medcharacter != ''"> and soft_name = #{medcharacter} </if>
+			 <if test="dose!= null and dose!= ''"> and dose= #{softIntroduction} </if>
+			 <if test="dosage != null and dosage != ''"> and soft_keywords = #{dosage} </if>
+			 <if test="contraindication!= null and contraindication!= ''"> and contraindication = #{contraindication} </if>
+			 <if test="indication != null and indication != ''"> and indication = #{indication} </if>
+			 <if test="dosagefromdoc != null and dosagefromdoc != ''"> and dosagefromdoc = #{dosagefromdoc} </if>
+			 <if test="untowardeffect != null and untowardeffect != ''"> and untowardeffect = #{untowardeffect} </if>
+			 <if test="druginteraction != null and druginteraction != ''"> and druginteraction = #{druginteraction} </if>
+			 <if test="periodvalidity != null  "> and periodvalidity = #{periodvalidity} </if>
+			 <if test="manufacturer != null  "> and manufacturer = #{manufacturer} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.MedicineDO" >
+		insert into medicine
+		(
+    		licensenumber, 
+	    	medicinename, 
+		 	activeingredient, 
+		 	medcharacter, 
+		 	dose, 
+		 	dosage, 
+		 	contraindication, 
+		 	indication, 
+		 	dosagefromdoc, 
+		 	untowardeffect, 
+		 	druginteraction, 
+		 	periodvalidity, 
+		 	manufacturer, 
+		 	storageconditions,bar_code
+		)
+		values
+		(
+			#{licensenumber},
+			#{medicinename},
+			#{activeingredient},
+			#{medcharacter},
+			#{dose},
+			#{dosage},
+			#{contraindication},
+			#{indication},
+		 	#{dosagefromdoc},
+		 	#{untowardeffect},
+		 	#{druginteraction},
+		 	#{periodvalidity},
+		 	#{manufacturer},
+		 	#{storageconditions},
+		 #{barCode}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.MedicineDO">
+		update medicine
+		<set>
+			<if test="medicinename != null ">  medicinename = #{medicinename}, </if>
+			<if test="activeingredient != null and activeingredient != ''">  activeingredient = #{activeingredient},</if>
+			<if test="medcharacter != null and medcharacter != ''">  medcharacter = #{medcharacter}, </if>
+			<if test="dose!= null and dose!= ''">  dose= #{dose}, </if>
+			<if test="dosage != null and dosage != ''">  dosage = #{dosage}, </if>
+			<if test="contraindication!= null and contraindication!= ''">  contraindication = #{contraindication}, </if>
+			<if test="indication != null and indication != ''">  indication = #{indication}, </if>
+			<if test="storageconditions != null and storageconditions != ''">  storageconditions = #{storageconditions} ,</if>
+			<if test="dosagefromdoc != null and dosagefromdoc != ''">  dosagefromdoc = #{dosagefromdoc}, </if>
+			<if test="untowardeffect != null and untowardeffect != ''"> untowardeffect = #{untowardeffect}, </if>
+			<if test="druginteraction != null and druginteraction != ''">  druginteraction = #{druginteraction}, </if>
+			<if test="periodvalidity != null "> periodvalidity = #{periodvalidity}, </if>
+			<if test="manufacturer != null and manufacturer != ''">  manufacturer = #{manufacturer} </if>
+		</set>
+		where  licensenumber = #{licensenumber}
+	</update>
+	
+	<delete id="remove">
+		delete from medicine where licensenumber = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from medicine where licensenumber in
+		<foreach item="licensenumber" collection="array" open="(" separator="," close=")">
+			#{licensenumber}
+		</foreach>
+	</delete>
+
+
+	<select id="findDrug" resultType="String">
+		select indication from drug where cnName like '%${value}%';
+	</select>
+</mapper>

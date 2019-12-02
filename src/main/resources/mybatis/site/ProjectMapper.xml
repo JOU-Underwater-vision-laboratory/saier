@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.site.dao.ProjectDao">
+
+	<select id="get" resultType="com.hhit.site.domain.ProjectDO">
+		select `pid`,`pdate`,`pContent`,`created`,`modified`,`gtm_create`,`gtm_modified`  from site_project where pid = #{value}
+	</select>
+
+	<select id="list" resultType="com.hhit.site.domain.ProjectDO">
+		select `pid`,`pdate`,`pContent`,`created`,`modified`,`gtm_create`,`gtm_modified` from site_project
+		<where>
+		  		  <if test="pid != null and pid != ''"> and pid = #{pid} </if>
+		  		  <if test="pdate != null and pdate != ''"> and pdate = #{pdate} </if>
+		  		  <if test="pContent != null and pContent != ''"> and pContent like '%${pContent}%' </if>
+		  		  <if test="created != null and created != ''"> and created = #{created} </if>
+		  		  <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+		  		  <if test="gtmCreate != null"> and gtm_create = #{gtmCreate,jdbcType=TIMESTAMP} </if>
+		  		  <if test="gtmModified != null "> and gtm_modified = #{gtmModified,jdbcType=TIMESTAMP} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by pid desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit ${offset}, ${limit}
+		</if>
+	</select>
+
+	<select id="findAll" resultType="com.hhit.site.domain.ProjectDO">
+		select `pid`,`pdate`,`pContent`,`created`,`modified`,`gtm_create`,`gtm_modified` from site_project
+		<where>
+			<if test="pid != null and pid != ''"> and pid = #{pid} </if>
+			<if test="pdate != null and pdate != ''"> and pdate = #{pdate} </if>
+			<if test="pContent != null and pContent != ''"> and pContent = #{pContent} </if>
+			<if test="created != null and created != ''"> and created = #{created} </if>
+			<if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			<if test="gtmCreate != null"> and gtm_create = #{gtmCreate,jdbcType=TIMESTAMP} </if>
+			<if test="gtmModified != null "> and gtm_modified = #{gtmModified,jdbcType=TIMESTAMP} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by pid desc
+			</otherwise>
+		</choose>
+
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from site_project
+		 <where>
+			 <if test="pid != null and pid != ''"> and pid = #{pid} </if>
+			 <if test="pdate != null and pdate != ''"> and pdate = #{pdate} </if>
+			 <if test="pContent != null and pContent != ''"> and pContent = #{pContent} </if>
+			 <if test="created != null and created != ''"> and created = #{created} </if>
+			 <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+			 <if test="gtmCreate != null "> and gtm_create = #{gtmCreate,jdbcType=TIMESTAMP} </if>
+			 <if test="gtmModified != null"> and gtm_modified = #{gtmModified,jdbcType=TIMESTAMP} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.site.domain.ProjectDO" useGeneratedKeys="true" keyProperty="pid">
+		insert into site_project
+		(
+				`pdate`,`pContent`,`created`,`modified`,`gtm_create`,`gtm_modified`
+		)
+		values
+		(
+				#{pdate},
+				#{pContent},
+				#{created},
+				#{modified},
+				#{gtmCreate,jdbcType=TIMESTAMP},
+				#{gtmModified,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.site.domain.ProjectDO">
+		update site_project 
+		<set>
+			<if test="pid != null ">  pid = #{pid} ,</if>
+			<if test="pdate != null ">  pdate = #{pdate}, </if>
+			<if test="pContent != null ">  pContent = #{pContent}, </if>
+			<if test="created != null ">  created = #{created}, </if>
+			<if test="modified != null ">  modified = #{modified}, </if>
+			<if test="gtmCreate != null ">  gtm_create = #{gtmCreate,jdbcType=TIMESTAMP} ,</if>
+			<if test="gtmModified != null ">  gtm_modified = #{gtmModified,jdbcType=TIMESTAMP} </if>
+		</set>
+		where pid = #{pid}
+	</update>
+	
+	<delete id="remove">
+		delete from site_project where pid = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from site_project where pid in 
+		<foreach item="pid" collection="array" open="(" separator="," close=")">
+			#{pid}
+		</foreach>
+	</delete>
+
+</mapper>

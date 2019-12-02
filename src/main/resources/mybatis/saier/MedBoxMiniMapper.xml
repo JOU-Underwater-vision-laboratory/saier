@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.MedBoxMiniDao">
+	
+
+	<select id="get"  resultType="com.hhit.saier.domain.MedBoxMiniDO">
+		select  `mid`, `first`, `second`, `third`, `forth`, `fifth`  from medboxmini where mid = #{value}
+	</select>
+
+	<select id="list"  resultType="com.hhit.saier.domain.MedBoxMiniDO">
+		select `mid`, `first`, `second`, `third`, `forth`, `fifth` from medboxmini
+        <where>
+			<if test="mid != null "> and mid = #{mid} </if>
+		  		  <if test="first != null "> and `first` = #{first} </if>
+		  		  <if test="second != null and second != ''"> and `second` = #{second} </if>
+			      <if test="third != null "> and third = #{third} </if>
+                  <if test="forth!= null "> and forth= #{forth} </if>
+				  <if test="fifth != null and fifth != ''"> and fifth like '%${fifth}%' </if>
+		  		</where>
+        <!--<choose>-->
+            <!--<when test="sort != null and sort.trim() != ''">-->
+                <!--order by ${sort} ${order}-->
+            <!--</when>-->
+			<!--<otherwise>-->
+                <!--order by  desc-->
+			<!--</otherwise>-->
+        <!--</choose>-->
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from medboxmini
+		 <where>
+			 <if test="first != null "> and `first` = #{first} </if>
+			 <if test="second != null and second != ''"> and `second` = #{second} </if>
+			 <if test="third != null and third != ''"> and third = #{third} </if>
+			 <if test="forth!= null and forth!= ''"> and forth= #{forth} </if>
+			 <if test="fifth != null and fifth != ''"> and fifth = #{fifth} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.MedBoxMiniDO" useGeneratedKeys="true"  >
+		insert into medboxmini
+		(
+    		mid, 
+	    	`first`,
+		 	`second`,
+		 	third, 
+		 	forth, 
+		 	fifth
+
+		)
+		values
+		(
+			#{mid},
+			#{first},
+			#{second},
+			#{third},
+			#{forth},
+			#{fifth}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.MedBoxMiniDO">
+		update medboxmini
+		<set>
+			<if test="first != null and first!='' ">  first = #{first}, </if>
+			<if test="second != null and second != ''">  `second` = #{second} ,</if>
+			<if test="third != null and third != ''">  third = #{third}, </if>
+			<if test="forth!= null and forth!= ''">  forth= #{forth}, </if>
+			<if test="fifth != null and fifth != ''">  fifth = #{fifth}</if>
+		</set>
+		where mid = #{mid}
+	</update>
+	
+	<delete id="remove">
+		delete from medboxmini where mid = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from medboxmini where mid in
+		<foreach item="mid" collection="array" open="(" separator="," close=")">
+			#{mid}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="col-sm-12">
+							<h4>修改周报</h4>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+                            <input id="wid" name="wid" type="hidden" th:value="${weekreport.wid}">
+                            <div class="form-group">
+                                <input id="wContent" name="wContent" type="hidden"
+                                       th:value="${weekreport.wContent}"><label
+                                    class="col-sm-1 control-label">周报内容：</label>
+                                <div class="col-sm-11">
+                                    <div class="ibox-content no-padding">
+                                        <div id="content_sn" class="summernote"></div>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="text-right form-group">
+								<a class="btn btn-default waves-effect waves-light"
+									onclick="returnList()">返回列表</a>
+								<button type="button"
+									class="btn btn-primary waves-effect waves-light"
+									onclick="save(1)">保存修改</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/sys/weekreport/edit.js">
+		
+	</script>
+</body>
+</html>

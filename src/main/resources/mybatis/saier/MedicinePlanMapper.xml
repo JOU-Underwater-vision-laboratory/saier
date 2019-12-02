@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.MedicinePlanDao">
+
+	<resultMap id="plan" type="com.hhit.saier.domain.MedicinePlanDO">
+		<id property="id" column="id" javaType="Integer"/>
+		<result property="medlicense" column="medlicense" javaType="String"/>
+		<result property="medbox" column="medbox" javaType="Integer"/>
+		<result column="times" property="times" javaType="String"/>
+		<result property="medicinetime" column="medicinetime" javaType="String"/>
+		<result property="num" column="num" javaType="String"/>
+		<result property="ctime" column="ctime" javaType="Date" />
+		<result property="term" column="term" javaType="String"/>
+		<result property="created" column="created" javaType="Integer"/>
+		<result property="name" column="name" javaType="String"/>
+	</resultMap>
+
+	<select id="get"  resultType="com.hhit.saier.domain.MedicinePlanDO">
+		select  id, medlicense, medbox, times, medicinetime, num,ctime,created,name,term  from medicineplan where id = #{value}
+	</select>
+
+
+	<select id="list"  resultMap="plan">
+		select id, medlicense, medbox, times, medicinetime, num,ctime,created,name,term from medicineplan
+        <where>
+			<if test="id != null "> and id = #{id} </if>
+			<if test="medlicense != null and medlicense!='' "> and medlicense like '%${medlicense}%' </if>
+			<if test="medbox != null  "> and medbox = #{medbox} </if>
+			<if test="times != null "> and times = #{times} </if>
+			<if test="medicinetime != null  "> and medicinetime = #{medicinetime} </if>
+			<if test="num != null and num!='' "> and num = #{num} </if>
+			<if test="ctime != null and ctime!='' "> and ctime = #{ctime} </if>
+			<if test="created != null  "> and `created`= #{created} </if>
+			<if test="name != null and name != '' "> and `name`= #{name} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="listName"  resultType="String">
+		select m.name from medicineplan p left join medicinemini m
+		  on m.pzwh = p.medlicense
+		  <where>
+		  	<if test="name != null and name != '' "> and p.name= #{name} </if>
+		  </where>
+	</select>
+
+ 	<select id="count" resultType="int">
+		select count(*) from medicineplan
+		 <where>
+			 <if test="medlicense != null and medlicense != ''"> and medlicense = #{medlicense} </if>
+			 <if test="medbox != null "> and medbox = #{medbox} </if>
+			 <if test="times != null  "> and times = #{times} </if>
+			 <if test="medicinetime != null and medicinetime != ''  "> and medicinetime = #{medicinetime} </if>
+			 <if test="num != null  "> and num = #{num} </if>
+		  		</where>
+	</select>
+
+
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.MedicinePlanDO" useGeneratedKeys="true" keyProperty="id" >
+		insert into medicineplan
+		(
+		 medlicense,
+		 medbox,
+		 times,
+		 medicinetime,
+		 num,
+		 term
+		 ,created,name
+		)
+		values
+		(
+		 	#{medlicense},
+		 	#{medbox},
+		 	#{times},
+		 	#{medicinetime},
+		 	#{num},
+		 	#{term},
+		 	#{created},
+		 	#{name}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.MedicinePlanDO">
+		update medicineplan
+		<set>
+			<if test="medlicense != null and medlicense != ''"> medlicense = #{medlicense}, </if>
+			<if test="medbox != null ">  medbox = #{medbox}, </if>
+			<if test="times != null "> times = #{times}, </if>
+			<if test="num != null "> num = #{num}, </if>
+			<if test="medicinetime != null ">  medicinetime = #{medicinetime} </if>
+		</set>
+		where id= #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from medicineplan where id = #{value}
+	</delete>
+
+	<delete id="removeM">
+		delete from medicineplan where medlicense = #{medlicense} and medbox = #{boxid}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from medicinePlan where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

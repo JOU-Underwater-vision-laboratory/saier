@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div class="col-sm-12">
+							<h4>药品信息</h4>
+						</div>
+						<form class="form-horizontal m-t" id="signupForm">
+							<div class="form-group" align="center">
+								<label class="col-sm-1 control-label">药准字号/license：</label>
+								<div class="col-sm-4">
+									<input id="licensenumber" name="licensenumber" class="form-control" type="text"
+										hidden="国药准字Z45021599"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">药名/medicine name：</label>
+								<div class="col-sm-4">
+									<input id="medicinename" name="medicinename" class="form-control" type="text"
+										hidden="桂林西瓜霜"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">有效成分/active ingredient：</label>
+								<div class="col-sm-4">
+									<input id="activeingredient" name="activeingredient" class="form-control" type="text"
+										hidden="西瓜霜、锻硼砂、黄柏……"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">药物特征/character：</label>
+								<div class="col-sm-4">
+									<input id="medcharacter" name="medcharacter" class="form-control" type="text"
+										hidden="本品为灰黄绿色的粉末……"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">剂量/dose：</label>
+								<div class="col-sm-4">
+									<input id="dose" name="dose" class="form-control" type="text"
+										hidden="每瓶装2.5克"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">药量(医嘱)/dosage：</label>
+								<div class="col-sm-4">
+									<input id="dosage" name="dosage" class="form-control" type="text"
+										hidden="喷（吹）敷患处，一次适量，一日数次。重症者兼服，一次1～2g，次数视情况而定。"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">禁忌/contraindication：</label>
+								<div class="col-sm-4">
+									<input id="contraindication" name="contraindication" class="form-control" type="text"
+										hidden="忌烟酒、辛辣、鱼腥食物。"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">迹象/indication：</label>
+								<div class="col-sm-4">
+									<input id="indication" name="indication" class="form-control" type="text"
+										hidden="口腔溃疡"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">药量(说明书)/dosage：</label>
+								<div class="col-sm-4">
+									<input id="dosagefromdoc" name="dosagefromdoc" class="form-control" type="text"
+										hidden="喷（吹）敷患处，一次适量，一日数次"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">副作用/untoward effect：</label>
+								<div class="col-sm-4">
+									<input id="untowardeffect" name="contraindication" class="form-control" type="text"
+										hidden="尚不明确"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">药物相互作用/druginteraction：</label>
+								<div class="col-sm-4">
+									<input id="druginteraction" name="druginteraction" class="form-control" type="text"
+										hidden="与其他药物可能发生相互作用,请询问医师"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">有效期/periodvalidity：</label>
+								<div class="col-sm-4">
+									<input id="periodvalidity" name="periodvalidity" class="form-control" type="text"
+										hidden="36个月"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">生产厂家/manufacturer：</label>
+								<div class="col-sm-4">
+									<input id="manufacturer" name="manufacturer" class="form-control" type="text"
+										hidden="桂林三金药业股份有限公司"
+									>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 control-label">储存条件/storage conditions：</label>
+								<div class="col-sm-4">
+									<input id="storageconditions" name="storageconditions" class="form-control" type="text"
+										hidden="密闭，防潮。"
+									>
+								</div>
+							</div>
+
+
+							<div class="text-right form-group">
+								<a class="btn btn-default waves-effect waves-light"
+								   onclick="returnList()">返回列表</a>
+								<button
+										class="btn btn-primary waves-effect waves-light" type="submit">保存药品信息</button>
+								<!--<button-->
+										<!--class="btn btn-warning waves-effect waves-light"-->
+										<!--onclick="save(0)">存为草稿</button>-->
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="include::footer"></div>
+
+
+	<script type="text/javascript" src="/js/appjs/saier/medicine/add.js">
+		
+	</script>
+</body>
+</html>

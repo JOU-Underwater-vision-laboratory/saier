@@ -1,0 +1,23 @@
+INSERT INTO sys_menu(menu_id,parent_id,name,type) values(109,102,"赛尔管理",1);
+INSERT INTO sys_menu(menu_id,parent_id,name,url,perms,type) values(110,102,"药物管理","/saier/medicine","saier:medicine:medicine",1);
+INSERT INTO sys_menu(menu_id,parent_id,name,url,perms,type) values(111,102,"药格管理","/saier/box","saier:box:box",1);
+INSERT INTO sys_menu(menu_id,parent_id,name,url,perms,type) values(112,102,"服药计划","/saier/plan","saier:plan:plan",1);
+INSERT INTO sys_menu(menu_id,parent_id,name,url,perms,type) values(113,102,"用药统计","/util/graph","saier:graph:graph",1);
+
+-- -- 药物管理子按钮 PID(占位 100) 之后应更换为真实PID
+INSERT INTO sys_menu(parent_id,name,perms,type) values(110,"删除药物","saier:medicine:remove",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(110,"新增药物","saier:medicine:add",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(110,"药物管理","saier:medicine:edit",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(110,"药物编辑","saier:medicine:batchRemove",2);
+-- 服药计划子按钮 PID(占位 101)
+INSERT INTO sys_menu(parent_id,name,perms,type) values(112,"新增计划","saier:plan:add",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(112,"编辑计划","saier:plan:edit",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(112,"删除","saier:plan:remove",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(112,"批量删除","saier:plan:batchRemove",2);
+-- 用药统计子按钮 PID(占位 102)
+INSERT INTO sys_menu(parent_id,name,url,perms,type) values(113,"查看","/util/show/graph","saier:graph:show",2);
+-- 药格管理子按钮 PID(占位 103)
+INSERT INTO sys_menu(parent_id,name,perms,type) values(111,"药格增加","saier:box:add",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(111,"编辑","saier:box:edit",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(111,"药格删除","saier:box:remove",2);
+INSERT INTO sys_menu(parent_id,name,perms,type) values(111,"批量删除","saier:box:batchRemove",2);

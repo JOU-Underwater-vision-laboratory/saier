@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.MedicineMiniDao">
+
+	<resultMap id="medicinemini" type="com.hhit.saier.domain.MedicineMini">
+		<id property="id" column="id" javaType="Integer"/>
+		<result property="pzwh"   		  	column="pzwh"   		    javaType="String"/>
+		<result property="format"  		  	column="format"  		    javaType="String"/>
+		<result property="name"			  	column="name"			    javaType="String"/>
+		<result property="manufacturer"   	column="manufacturer"     javaType="String"/>
+		<result property="barcode"  	  	column="barcode"  	    javaType="String" />
+		<result property="form" 		  	column="form" 		    javaType="String" />
+		<result property="wholesalePrice" 	column="wholesalePrice"   javaType="String"/>
+		<result property="retailPrice"    	column="retailPrice"      javaType="String" />
+		<result property="createTime "    	column="createTime "      javaType="String" />
+	</resultMap>
+	
+	<!-- 根据barcode查询-->
+	<select id="findByBarCode"  resultMap="medicinemini">
+		select  id, pzwh, format, name, manufacturer, barcode, form, wholesale_price, retail_price, create_time  from medicinemini  where  `barcode` = #{value}
+	</select>
+
+	<!-- 根据药准号查询-->
+	<select id="get"  resultMap="medicinemini">
+		select   id, pzwh, format, name, manufacturer, barcode, form, wholesale_price, retail_price, create_time from medicinemini where pzwh = #{value}
+	</select>
+
+	<select id="list"  resultMap="medicinemini">
+		select  id, pzwh, format, name, manufacturer, barcode, form, wholesale_price, retail_price, create_time from medicinemini
+        <where>
+			<if test="pzwh != null and pzwh != ''"> and pzwh = #{pzwh} </if>
+			<if test="format != null and format != '' "> and format = #{format} </if>
+		    <if test="name != null and name != ''"> and name = #{name} </if>
+	        <if test="manufacturer != null and manufacturer != '' "> and manufacturer = #{manufacturer} </if>
+            <if test="barcode!= null and barcode!= ''"> and barcode like '%${barcode}%' </if>
+		    <if test="form != null and form != ''"> and form = #{form} </if>
+			<if test="wholesalePrice!= null and wholesalePrice!= '' "> and wholesale_price = #{wholesalePrice} </if>
+			<if test="retailPrice != null and retailPrice != ''  "> and retail_price = #{retailPrice} </if>
+			<if test="createTime != null and createTime != '' "> and create_time = #{createTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from medicinemini
+		 <where>
+			 <if test="pzwh != null and pzwh != ''"> and pzwh = #{pzwh} </if>
+			 <if test="format != null and format != '' "> and format = #{format} </if>
+			 <if test="name != null and name != ''"> and name = #{name} </if>
+			 <if test="manufacturer != null and manufacturer != '' "> and manufacturer = #{manufacturer} </if>
+			 <if test="barcode!= null and barcode!= ''"> and barcode= '%${barcode}%' </if>
+			 <if test="form != null and form != ''"> and form like #{form} </if>
+			 <if test="wholesalePrice!= null and wholesalePrice!= '' "> and wholesale_price = #{wholesalePrice} </if>
+			 <if test="retailPrice != null and retailPrice != ''  "> and retail_price = #{retailPrice} </if>
+			 <if test="createTime != null and createTime != '' "> and create_time = #{createTime} </if>
+		 </where>
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.MedicineMini" >
+		insert into medicinemini
+		(
+    		pzwh, format, name, manufacturer, barcode, form, wholesale_price, retail_price, create_time
+		)
+		values
+		(
+			#{pzwh},
+			#{format},
+			#{name},
+			#{manufacturer},
+			#{barcode},
+			#{form},
+			#{wholesalePrice},
+			#{retailPrice},
+		 	#{createTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.MedicineMini">
+		update medicinemini
+		<set>
+			<if test="format != null ">  format = #{format}, </if>
+			<if test="name != null and name != ''">  name = #{name},</if>
+			<if test="manufacturer != null and manufacturer != ''">  manufacturer = #{manufacturer}, </if>
+			<if test="barcode!= null and barcode!= ''">  barcode= #{barcode}, </if>
+			<if test="form != null and form != ''">  form = #{form}, </if>
+			<if test="wholesalePrice!= null and wholesalePrice!= ''">  wholesalePrice = #{wholesalePrice}, </if>
+			<if test="retailPrice != null and retailPrice != ''">  retailPrice = #{retailPrice}, </if>
+			<if test="createTime != null and createTime != ''">  createTime = #{createTime} </if>
+		</set>
+		where  pzwh = #{pzwh}
+	</update>
+	
+	<delete id="remove">
+		delete from medicinemini where pzwh = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from medicinemini where pzwh in
+		<foreach item="pzwh" collection="array" open="(" separator="," close=")">
+			#{pzwh}
+		</foreach>
+	</delete>
+
+</mapper>

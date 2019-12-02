@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhit.saier.dao.MedicinePlanRecordDao">
+
+	<resultMap id="plan" type="com.hhit.saier.domain.MedicinePlanRecordDO">
+		<id property="id" column="id" javaType="Integer"/>
+		<result property="week" column="week" javaType="String"/>
+		<result property="month" column="month" javaType="Integer"/>
+		<result column="year" property="year" javaType="String"/>
+		<result column="day" property="day" javaType="String"/>
+		<result property="current" column="current" javaType="Date" />
+		<result property="prop" column="prop" javaType="String"/>
+		<result property="created" column="created" javaType="Integer"/>
+		<result property="name" column="name" javaType="String"/>
+	</resultMap>
+
+	<select id="get"  resultType="com.hhit.saier.domain.MedicinePlanRecordDO">
+		select  `id`,`week`,`month`,`year`,`day`,`current`,`prop`,`created`,`name` from medicineplan_record where id = #{value}
+	</select>
+
+
+	<select id="list"  resultMap="plan">
+		select id, week, `month`, `year`,`day`, `current`, prop,created,name
+		from medicineplan_record
+        <where>
+			<if test="id != null "> and id = #{id} </if>
+			<if test="week != null and week!='' "> and week like '%${week}%' </if>
+			<if test="month != null  "> and `month` = #{month} </if>
+			<if test="year != null "> and `year` = #{year} </if>
+			<if test="current != null  "> and `current` = #{current} </if>
+			<if test="prop != null and prop!='' "> and prop = #{prop} </if>
+			<if test="day != null and day!='' "> and `day` = #{day} </if>
+			<if test="created != null  "> and `created`= #{created} </if>
+			<if test="name != null and name != '' "> and `name`= #{name} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+
+ 	<select id="count" resultType="int">
+		select count(*) from medicineplan_record
+		 <where>
+			 <if test="week != null and week != ''"> and week = #{week} </if>
+			 <if test="month != null "> and month = #{month} </if>
+			 <if test="year != null  "> and year = #{year} </if>
+			 <if test="current != null and current != ''  "> and current = #{current} </if>
+			 <if test="prop != null  "> and prop = #{prop} </if>
+		 </where>
+	</select>
+	<select id="countYear" resultType="java.util.HashMap">
+		select `year`,count(1) from medicineplan_record group by year
+	</select>
+	<select id="countMonth" resultType="java.util.HashMap">
+		select `month`,count(1) from medicineplan_record group by month
+	</select>
+	<select id="countDay" resultType="java.util.HashMap">
+		select `day`,count(1) from medicineplan_record group by day
+	</select>
+	 
+	<insert id="save" parameterType="com.hhit.saier.domain.MedicinePlanRecordDO" useGeneratedKeys="true" keyProperty="id" >
+		insert into medicineplan_record
+		(
+		 `week`,
+		`month`,
+		`year`,
+		`current`,
+		`prop`,
+		`day`
+		 ,`created`,`name`
+		)
+		values
+		(
+		 	#{week},
+		 	#{month},
+		 	#{year},
+		 	#{current},
+		 	#{prop},
+		 	#{day},
+		 	#{created},
+		 	#{name}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.hhit.saier.domain.MedicinePlanRecordDO">
+		update medicineplan_record
+		<set>
+			<if test="week != null and week != ''"> week = #{week}, </if>
+			<if test="month != null ">  month = #{month}, </if>
+			<if test="year != null "> year = #{year}, </if>
+			<if test="prop != null "> prop = #{prop}, </if>
+			<if test="current != null ">  current = #{current} </if>
+		</set>
+		where id= #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from medicineplan_record where id = #{value}
+	</delete>
+
+	<delete id="removeM">
+		delete from medicineplan_record where week = #{week} and month = #{boxid}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from medicineplan_record where id in
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
